@@ -1,0 +1,66 @@
+{
+"$schema": "https://vega.github.io/schema/vega/v5.json",
+"width": 600,
+"height": 400,
+"padding": 5,
+
+"title": {
+"text": "Hectares Burnt in NSW by Fire Season",
+"fontSize": 16,
+"anchor": "middle",
+"fontWeight": "bold",
+"dy": -10
+},
+
+"data": [
+{
+"name": "table",
+"values": [
+{"year": "2002-03", "amount": 1500000},
+{"year": "2003-04", "amount": 57600},
+{"year": "2004-05", "amount": 16309},
+{"year": "2005-06", "amount": 92613},
+{"year": "2006-07", "amount": 438218},
+{"year": "2007-08", "amount": 85507},
+{"year": "2008-09", "amount": 32700},
+{"year": "2009-10", "amount": 366159},
+{"year": "2010-11", "amount": 37893},
+{"year": "2011-12", "amount": 219033},
+{"year": "2012-13", "amount": 1400000},
+{"year": "2013-14", "amount": 574557},
+{"year": "2014-15", "amount": 183677},
+{"year": "2015-16", "amount": 87810},
+{"year": "2016-17", "amount": 268367},
+{"year": "2017-18", "amount": 259720},
+{"year": "2018-19", "amount": 288422},
+{"year": "2019-20", "amount": 5520000},
+{"year": "2020-21", "amount": 37832}
+]
+},
+{
+"name": "filtered",
+"source": "table",
+"transform": [
+{
+"type": "filter",
+"expr": "datum.year >= startYear && datum.year <= endYear" } ] }, { "name" : "blackSummer" , "source" : "filtered"
+    , "transform" : [ { "type" : "filter" , "expr" : "datum.year === '2019-20'" } ] } ], "scales" : [ { "name"
+    : "xscale" , "type" : "band" , "domain" : { "data" : "filtered" , "field" : "year" }, "range" : "width" , "padding"
+    : 0.05, "round" : true }, { "name" : "yscale" , "domain" : {"data": "filtered" , "field" : "amount" }, "nice" :
+    true, "range" : "height" } ], "axes" : [ { "orient" : "bottom" , "scale" : "xscale" , "labelAngle" :
+    -45, "labelFontSize" : 10, "labelPadding" : 10 }, { "orient" : "left" , "scale" : "yscale" } ], "marks" : [ { "type"
+    : "rect" , "from" : {"data": "filtered" }, "encode" : { "enter" : { "width" : {"scale": "xscale" , "band" : 1}
+    }, "update" : { "x" : {"scale": "xscale" , "field" : "year" }, "y" : {"scale": "yscale" , "field" : "amount" }, "y2"
+    : {"scale": "yscale" , "value" : 0}, "fill" : {"value": "crimson" } }, "hover" : { "fill" : {"value": "darkorange" }
+    } } }, { "type" : "text" , "from" : {"data": "blackSummer" }, "encode" : { "enter" : { "text" : {"value": ["Black
+    Summer:", "The most catastrophic" , "fire season in recent" , "Australian history" ]}, "fontSize" : {"value":
+    12}, "fill" : {"value": "black" }, "align" : {"value": "center" }, "baseline" : {"value": "bottom" } }, "update" :
+    { "x" : {"scale": "xscale" , "field" : "year" , "band" : 0.5}, "y" : {"scale": "yscale" , "field" : "amount"
+    , "offset" : -60} } } } ], "signals" : [ { "name" : "startYear" , "value" : "2002-03" , "bind" : { "input"
+    : "select" , "options" : [ "2002-03" , "2003-04" , "2004-05" , "2005-06" , "2006-07" , "2007-08" , "2008-09"
+    , "2009-10" , "2010-11" , "2011-12" , "2012-13" , "2013-14" , "2014-15" , "2015-16" , "2016-17" , "2017-18"
+    , "2018-19" , "2019-20" , "2020-21" ], "name" : "Start Season: " } }, { "name" : "endYear" , "value" : "2020-21"
+    , "bind" : { "input" : "select" , "options" : [ "2002-03" , "2003-04" , "2004-05" , "2005-06" , "2006-07"
+    , "2007-08" , "2008-09" , "2009-10" , "2010-11" , "2011-12" , "2012-13" , "2013-14" , "2014-15" , "2015-16"
+    , "2016-17" , "2017-18" , "2018-19" , "2019-20" , "2020-21" ], "name" : "End Season: " } } ], "config" : { "mark" :
+    { "tooltip" : { "signal" : "{'Fire Season': datum.year, 'Hectares Burnt': datum.amount}" } } } }
